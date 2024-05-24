@@ -6,7 +6,7 @@ from fastapi_users_db_sqlalchemy import SQLAlchemyBaseUserTable, SQLAlchemyUserD
 from sqlalchemy import TIMESTAMP, Boolean, ForeignKey, Integer, String
 from sqlalchemy.ext.asyncio import AsyncSession, create_async_engine
 from sqlalchemy.ext.declarative import DeclarativeMeta, declarative_base
-from sqlalchemy.orm import Mapped, mapped_column, relationship, sessionmaker
+from sqlalchemy.orm import Mapped, mapped_column, sessionmaker
 
 from src.config import DB_HOST, DB_PORT, DB_NAME, DB_USER, DB_PASS
 
@@ -33,14 +33,12 @@ class User(SQLAlchemyBaseUserTable[int], Base):
     )
 
 
-# class Salary(Base):
-#     __tablename__ = "salary"
-#     id: Mapped[int] = mapped_column(Integer, primary_key=True)
-#     user_id: Mapped[int] = mapped_column(Integer, ForeignKey("user.id", ondelete="CASCADE"))
-#     current_salary: Mapped[int] = mapped_column(Integer, nullable=False)
-#     next_raise_date: Mapped[datetime] = mapped_column(TIMESTAMP(timezone=True), nullable=False)
-
-#     user = relationship("User", back_populates="salaries")
+class Salary(Base):
+    __tablename__ = "salary"
+    id: Mapped[int] = mapped_column(Integer, primary_key=True)
+    user_id: Mapped[int] = mapped_column(Integer, ForeignKey("user.id", ondelete="CASCADE"))
+    current_salary: Mapped[int] = mapped_column(Integer, nullable=False)
+    next_raise_date: Mapped[datetime] = mapped_column(TIMESTAMP(timezone=True), nullable=False)
 
 
 #Точка входа sqlalchemy в приложение(ассинхронная версия)
